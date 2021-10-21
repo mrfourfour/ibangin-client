@@ -47,9 +47,22 @@ public class TestUseHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        shutdown();
+
         float curLipDistance = (upperLip.position - lowerLip.position).sqrMagnitude;
         var mouseOpenValue = sigmoid(Convert.ToDouble((curLipDistance - defaultLipDistance) / defaultLipDistance));
         SetBlendshapeWeights(mouseOpenValue);
+    }
+
+    public void shutdown()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
     }
 
     private float sigmoid(double value)
